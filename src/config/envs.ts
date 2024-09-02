@@ -3,6 +3,7 @@ import * as joi from 'joi';
 
 interface EnvVars {
   PORT: number;
+  NATS_SERVERS: string;
 }
 
 const envsSchema = joi
@@ -13,6 +14,7 @@ const envsSchema = joi
 
 const { error, value } = envsSchema.validate({
   ...process.env,
+  NATS_SERVERS: process.env.NATS_SERVERS?.split(','),
 });
 
 if (error) {
@@ -23,4 +25,5 @@ const envVars: EnvVars = value;
 
 export const envs = {
   port: envVars.PORT,
+  natsServers: envVars.NATS_SERVERS,
 };
